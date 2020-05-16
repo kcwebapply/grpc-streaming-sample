@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package greet;
+option go_package="proto";
+
+//リクエストメッセージの型を定義
+message Greeting {
+  string first_name = 1;
+  string last_name = 2;
+}
+
+// Unary リクエスト
+message GreetRequest {
+  Greeting greeting = 1;
+}
+
+// Unary レスポンス
+message GreetResponse {
+  string result = 1;
+}
+
+// Server streaming リクエスト
+message GreetManyTimesRequest {
+  Greeting greeting = 1;
+}
+
+// Server streaming レスポンス
+message GreetManyTimesResponse {
+  string result = 1;
+}
+
+// Client streaming リクエスト
+message LongGreetRequest {
+  Greeting greeting = 1;
+}
+
+// Client streaming レスポンス
+message LongGreetResponse {
+  string result = 1;
+}
+
+// サービスの定義
+service GreetService{
+  //Unary
+  rpc Greet(GreetRequest) returns (GreetResponse) {};
+
+  //Server Streaming
+  rpc GreetManyTimes(GreetManyTimesRequest) returns (stream GreetManyTimesResponse) {};
+
+  //Client Streaming
+  rpc LongGreet(stream LongGreetRequest) returns (LongGreetResponse) {};
+}
